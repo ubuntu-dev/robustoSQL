@@ -1,0 +1,57 @@
+1. Basic information
+Team number (e.g., 01) : 20
+#1 Student ID : 89681430
+#1 Student Name : Harun Rashid Anver
+#2 Student ID : 76321572
+#2 Student Name : Sandeep Reddy Madugula
+OS (bit) : Ubuntu 14.04 (64 bit)
+gcc version : gcc version 4.8.4
+
+
+2. Catalog information about Index
+- Show your catalog information about an index (tables, columns).
+We create indexes table when createCatalog is called. The schema of the indexes table is as follows:
+Indexes(index-id:int, table-id:int, table-name:varchar(50),attribute-name:varchar(50), attribute-type:int, file-name:varchar(50))
+We populate records in tables table and columns table about the indexes table.
+Whenever there is a request to create a new index, a record will be added to indexed table 
+
+3. Block Nested Loop Join (If you have implemented this feature)
+- Describe how your block nested loop join works (especially, how you manage the given buffers.)
+Given the number of buffer pages, we first read tuples from left Table (leftIn.getNextTuple()) and 
+calculate the size of the tuple and then populate the hash map. We maintain a variable which identifies
+how many bytes read so far and we stop loading the hash table once we read numBufferPages * 4096 Bytes.
+After loading the hashtable we iterate through the right table, finding the matching tuples.
+Once the right table is exhausted we populate the hash table with the next set of tuples (size equal to buffer pages) and reset the right table iterator. 
+
+
+4. Index Nested Loop Join (If you have implemented this feature)
+- Describe how your Index Nested Loop join works.
+We iterate throuh the left table one by one. For every tuple in left table we index scan the right table for the matching key.
+If there are multiple matches we return them one by one. Once the index scan is exhausted we reset the right table iterator.
+
+
+5. Grace Hash Join (If you have implemented this feature)
+- Describe how your grace hash join works (especially, in-memory structure).
+NA
+
+6. Aggregation
+- Describe how your aggregation (basic, group-based hash) works.
+Basic Aggregation: We get all the records, extract the aggregate attribute and then store that attribute in a vector.
+We loop through the vector to calculate max, min, sum, avg and count. 
+GroupBy Aggregation: We get all the records, extract groupby attribute and aggregate attribute and then store them in a map.
+Map will be groupByAttr vs vector<aggrAttr>. We then calculate max, min, sum, avg, count based on the map value.
+
+
+7. Implementation Detail
+- Have you added your own source file (.cc or .h)?
+No
+
+- Have you implemented any optional features? Then, describe them here.
+We implemented group-based aggregation
+
+- Other implementation details:
+
+
+6. Other (optional)
+- Freely use this section to tell us about things that are related to the project 4, but not related to the other sections (optional)
+
